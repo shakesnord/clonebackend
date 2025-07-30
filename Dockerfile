@@ -1,5 +1,5 @@
 # Use Node.js 18 (LTS) instead of 14
-FROM node:18-alpine  # Alpine is smaller and recommended for production
+FROM node:18-alpine
 
 # Set the working directory in the container
 WORKDIR /usr/src/app
