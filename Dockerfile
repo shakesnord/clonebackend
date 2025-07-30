@@ -1,23 +1,25 @@
-# Use the Node.js base image
-FROM node:14
+# Use Node.js 18 (LTS) instead of 14
+FROM node:18-alpine  # Alpine is smaller and recommended for production
 
 # Set the working directory in the container
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json to install dependencies
+# Copy package.json and package-lock.json first for better caching
 COPY package*.json ./
 
-# Install the necessary dependencies
+# Install dependencies (including Prisma & Helmet)
 RUN npm install
 
-# Install TypeScript globally
+# Install TypeScript globally (optional, can be a devDependency instead)
 RUN npm install -g typescript
 
+# Copy the rest of the files
 COPY . .
 
+# Compile TypeScript
 RUN tsc
 
 EXPOSE 3000
 
-# Command to start the application
+# Start the app
 CMD ["node", "dist/index.js"]
